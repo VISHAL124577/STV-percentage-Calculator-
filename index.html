@@ -1,66 +1,181 @@
+
+
 <!DOCTYPE html>
-<html lang="mr">
+
+<html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Percentage Calculator</title>
+
 <style>
-:root{font-family:system-ui,-apple-system,"Noto Sans Devanagari",sans-serif;color:#172033;background:#f3f5f9}
-*{box-sizing:border-box}body{margin:0;padding:24px 14px;min-height:100vh;display:grid;place-items:center}
+
+:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#172033;background:#f3f5f9}
+
+*{box-sizing:border-box}
+
+body{margin:0;padding:24px 14px;min-height:100vh;display:grid;place-items:center}
+
 .card{width:min(100%,480px);background:white;border:1px solid #e3e7ef;border-radius:22px;padding:24px;box-shadow:0 12px 35px #15213a12}
-h1{font-size:25px;margin:0 0 6px}.sub{color:#647084;font-size:14px;margin:0 0 22px}
+
+h1{font-size:25px;margin:0 0 6px}
+
+.sub{color:#647084;font-size:14px;margin:0 0 22px}
+
 label{display:block;font-weight:650;margin:15px 0 7px}
+
 input{width:100%;padding:14px;border:1px solid #ccd3df;border-radius:12px;font-size:18px;outline:none}
+
 input:focus{border-color:#4263eb;box-shadow:0 0 0 3px #4263eb18}
+
 .result{background:#f0f5ff;border-radius:15px;padding:17px;margin-top:17px}
-.caption{font-size:13px;color:#5b6880}.value{font-size:32px;font-weight:800;color:#176b43;margin-top:4px;overflow-wrap:anywhere}
+
+.caption{font-size:13px;color:#5b6880}
+
+.value{font-size:32px;font-weight:800;color:#176b43;margin-top:4px;overflow-wrap:anywhere}
+
 hr{border:0;border-top:1px solid #e8ebf1;margin:24px 0}
+
 button{width:100%;padding:13px;border:0;border-radius:12px;background:#e9edf5;color:#26334a;font-size:16px;font-weight:700;margin-top:20px;cursor:pointer}
+
 .note{font-size:12px;color:#778195;margin-top:15px;line-height:1.5}
+
 </style>
+
 </head>
+
 <body>
+
 <main class="card">
-  <h1>Percentage Calculator</h1>
-  <p class="sub">रक्कम आणि टक्केवारी टाका — उत्तर लगेच मिळवा.</p>
 
-  <label for="total">1. एकूण रक्कम (Total Amount) ₹</label>
-  <input id="total" type="number" min="0" step="any" value="500000" inputmode="decimal">
+<h1>Percentage Calculator</h1>
 
-  <label for="part">2. किती रक्कम (Part Amount) ₹</label>
-  <input id="part" type="number" min="0" step="any" value="30000" inputmode="decimal">
+<p class="sub">Enter the amounts and get your result instantly.</p>
 
-  <section class="result" aria-live="polite">
-    <div class="caption">टक्केवारी (Percentage)</div>
-    <div class="value" id="percentage">6.00%</div>
-    <div class="caption" id="fraction">₹30,000 / ₹5,00,000</div>
-  </section>
+<label for="total">1. Total Amount (₹)</label>
 
-  <hr>
+<input id="total" type="number" min="0" step="any" value="500000" inputmode="decimal">
 
-  <label for="rate">3. किती टक्के रक्कम काढायची?</label>
-  <input id="rate" type="number" step="any" value="6" inputmode="decimal">
-  <section class="result" aria-live="polite">
-    <div class="caption">टक्केवारीनुसार मिळणारी रक्कम</div>
-    <div class="value" id="amount">₹30,000</div>
-  </section>
+<label for="part">2. Part Amount (₹)</label>
 
-  <button id="reset" type="button">रीसेट करा</button>
-  <p class="note">सूत्र: (Part Amount ÷ Total Amount) × 100. दुसऱ्या भागात Total Amount × टक्केवारी ÷ 100.</p>
+<input id="part" type="number" min="0" step="any" value="30000" inputmode="decimal">
+
+<section class="result" aria-live="polite">
+
+<div class="caption">Percentage</div>
+
+<div class="value" id="percentage">6.00%</div>
+
+<div class="caption" id="fraction">₹30,000 / ₹5,00,000</div>
+
+</section>
+
+<hr>
+
+<label for="rate">3. Calculate an Amount by Percentage (%)</label>
+
+<input id="rate" type="number" step="any" value="6" inputmode="decimal">
+
+<section class="result" aria-live="polite">
+
+<div class="caption">Calculated Amount</div>
+
+<div class="value" id="amount">₹30,000</div>
+
+</section>
+
+<button id="reset" type="button">Reset Calculator</button>
+
+<p class="note">
+
+Formula 1: (Part Amount ÷ Total Amount) × 100.<br>
+
+Formula 2: Total Amount × Percentage ÷ 100.
+
+</p>
+
 </main>
+
 <script>
-const total=document.getElementById('total'), part=document.getElementById('part'), rate=document.getElementById('rate');
-const percentage=document.getElementById('percentage'), fraction=document.getElementById('fraction'), amount=document.getElementById('amount');
-const fmt=n=>Number.isFinite(n)?n.toLocaleString('en-IN',{maximumFractionDigits:2}):'—';
+
+const total=document.getElementById('total');
+
+const part=document.getElementById('part');
+
+const rate=document.getElementById('rate');
+
+const percentage=document.getElementById('percentage');
+
+const fraction=document.getElementById('fraction');
+
+const amount=document.getElementById('amount');
+
+const fmt=n=>Number.isFinite(n)
+
+?n.toLocaleString('en-IN',{maximumFractionDigits:2})
+
+:'—';
+
 function update(){
- const t=Number(total.value), p=Number(part.value), r=Number(rate.value);
- percentage.textContent=(total.value!==''&&part.value!==''&&t>0?(p/t*100).toFixed(2)+'%':'—');
- fraction.textContent=(part.value!==''?`₹${fmt(p)}`:'—')+' / '+(total.value!==''?`₹${fmt(t)}`:'—');
- amount.textContent=(total.value!==''&&rate.value!==''?`₹${fmt(t*r/100)}`:'—');
+
+const t=Number(total.value);
+
+const p=Number(part.value);
+
+const r=Number(rate.value);
+
+percentage.textContent=
+
+total.value!==''&&part.value!==''&&t>0
+
+?(p/t*100).toFixed(2)+'%'
+
+:'—';
+
+fraction.textContent=
+
+(part.value!==''?'₹'+fmt(p):'—')+
+
+' / '+
+
+(total.value!==''?'₹'+fmt(t):'—');
+
+amount.textContent=
+
+total.value!==''&&rate.value!==''
+
+?'₹'+fmt(t*r/100)
+
+:'—';
+
 }
-[total,part,rate].forEach(el=>el.addEventListener('input',update));
-document.getElementById('reset').addEventListener('click',()=>{total.value='500000';part.value='30000';rate.value='6';update()});
+
+[total,part,rate].forEach(el=>
+
+el.addEventListener('input',update)
+
+);
+
+document.getElementById('reset').addEventListener('click',()=>{
+
+total.value='500000';
+
+part.value='30000';
+
+rate.value='6';
+
 update();
+
+});
+
+update();
+
 </script>
+
 </body>
+
 </html>
